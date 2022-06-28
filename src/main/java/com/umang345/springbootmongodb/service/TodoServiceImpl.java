@@ -55,4 +55,28 @@ public class TodoServiceImpl implements TodoService {
             return optionalTodo.get();
         }
     }
+
+    @Override
+    public void updateTodo(String id, TodoDTO todoDTO) throws TodoCollectionException {
+        Optional<TodoDTO> todoWithId = todoRepository.findById(id);
+        Optional<TodoDTO> todoWithSameName = todoRepository.findByTodo(todoDTO.getTodo());
+
+        if(todoWithId.isPresent())
+        {
+            if(todoWithSameName.isPresent() && !todoWithSameName.get().getId().equals(id))
+            {
+                 throw new TodoCollectionException(TodoCollectionException.TodoAlreadyExists());
+            }
+
+            TodoDTO todoToUpdate = todoWithId.get();
+            todoToUpdate.setTodo(todoDTO.getTodo());
+            todoToUpdate.setDescription(todoDTO.getDescription());
+            todoToUpdate.setCompleted(todoDTO.getCompleted());
+            todoDTO.setUpdatedAt(new Date(System.currentTimeMillis()));
+            todoRepository.save(todoToUpdate);
+        }
+        else{
+            throw new TodoCollectionException(TodoCollectionException.NotFoundException(id));
+        }
+    }
 }
