@@ -82,10 +82,10 @@ public class TodoController
     public ResponseEntity<?> deleteTodoById(@PathVariable("id") String id)
     {
         try {
-            todoRepository.deleteById(id);
+            todoService.deleteTodoById(id);
             return new ResponseEntity<>("Successfully deleted todo with id : "+id, HttpStatus.OK);
         }
-        catch (Exception e)
+        catch (TodoCollectionException e)
         {
              return new ResponseEntity<>(e.getMessage(),HttpStatus.NOT_FOUND);
         }
