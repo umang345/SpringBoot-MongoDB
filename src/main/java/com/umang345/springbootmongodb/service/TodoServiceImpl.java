@@ -4,11 +4,13 @@ import com.umang345.springbootmongodb.exception.TodoCollectionException;
 import com.umang345.springbootmongodb.model.TodoDTO;
 import com.umang345.springbootmongodb.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.validation.ConstraintViolationException;
 import java.util.Date;
 import java.util.Optional;
 
+@Service
 public class TodoServiceImpl implements TodoService {
 
     @Autowired
